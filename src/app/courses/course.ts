@@ -5,6 +5,6 @@ export class Course{
     price: number;
     code: string;
     duration: string;
-    rating: string;
+    rating: number;
     dataLancamento: string;
 }
