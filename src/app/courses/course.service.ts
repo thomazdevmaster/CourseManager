@@ -9,6 +9,17 @@ export class courseService{
     retornarTodos(): Course[]{
         return COURSES;
     }
+
+    retornaPorId(id:number): Course{
+        return COURSES.find((courseIterator: Course) => courseIterator.id === id);
+    }
+
+    save(curso: Course): void{
+        if(curso.id){
+            const index = COURSES.findIndex((courseIterator: Course) => courseIterator.id === curso.id);
+            COURSES[index] = curso;
+        }
+    }
     
 }
 
