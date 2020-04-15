@@ -1,23 +1,32 @@
 import {Course} from './course';
 import { Injectable } from '@angular/core';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class courseService{
-    retornarTodos(): Course[]{
-        return COURSES;
+
+    private coursesUrl: string = 'http://localhost:3100/api/courses';
+    constructor(private httpClient: HttpClient){
+
     }
 
-    retornaPorId(id:number): Course{
-        return COURSES.find((courseIterator: Course) => courseIterator.id === id);
+    retornarTodos(): Observable<Course[]>{
+        return this.httpClient.get<Course[]>(this.coursesUrl);
     }
 
-    save(curso: Course): void{
-        if(curso.id){
-            const index = COURSES.findIndex((courseIterator: Course) => courseIterator.id === curso.id);
-            COURSES[index] = curso;
+    retornaPorId(id:number): Observable<Course>{
+        return this.httpClient.get<Course>(`${this.coursesUrl}/${id}`);
+    }
+
+    save(course: Course): Observable<Course>{
+        if(course.id){
+            return this.httpClient.put<Course>(`${this.coursesUrl}/${course.id}`, course);
+        }else{
+            return this.httpClient.post<Course>(this.coursesUrl, course);
         }
     }
     
@@ -28,7 +37,7 @@ var COURSES: Course[] = [
         id: 1,
         name: 'Angular: CLI',
         dataLancamento: 'November 2, 2019',
-        descricao: 'Neste curso, os alunos irão obter um grande conhecimento nos principais recursos do CLI.',
+        description: 'Neste curso, os alunos irão obter um grande conhecimento nos principais recursos do CLI.',
         duracao: 120,
         code: 'XLF-1212',
         rating: 3,
@@ -39,7 +48,7 @@ var COURSES: Course[] = [
         id: 2,
         name: 'Angular: Forms',
         dataLancamento: 'November 4, 2019',
-        descricao: 'Neste curso, os alunos irão obter um conhecimento aprofundado sobre os recursos disponíveis no módulo de Forms.',
+        description: 'Neste curso, os alunos irão obter um conhecimento aprofundado sobre os recursos disponíveis no módulo de Forms.',
         duracao: 80,
         code: 'DWQ-3412',
         rating: 3.5,
@@ -50,7 +59,7 @@ var COURSES: Course[] = [
         id: 3,
         name: 'Angular: HTTP',
         dataLancamento: 'November 8, 2019',
-        descricao: 'Neste curso, os alunos irão obter um conhecimento aprofundado sobre os recursos disponíveis no módulo de HTTP.',
+        description: 'Neste curso, os alunos irão obter um conhecimento aprofundado sobre os recursos disponíveis no módulo de HTTP.',
         duracao: 80,
         code: 'QPL-0913',
         rating: 4.0,
@@ -61,7 +70,7 @@ var COURSES: Course[] = [
         id: 4,
         name: 'Angular: Router',
         dataLancamento: 'November 16, 2019',
-        descricao: 'Neste curso, os alunos irão obter um conhecimento aprofundado sobre os recursos disponíveis no módulo de Router.',
+        description: 'Neste curso, os alunos irão obter um conhecimento aprofundado sobre os recursos disponíveis no módulo de Router.',
         duracao: 80,
         code: 'OHP-1095',
         rating: 4.5,
@@ -72,7 +81,7 @@ var COURSES: Course[] = [
         id: 5,
         name: 'Angular: Animations',
         dataLancamento: 'November 25, 2019',
-        descricao: 'Neste curso, os alunos irão obter um conhecimento aprofundado sobre os recursos disponíveis sobre Animation.',
+        description: 'Neste curso, os alunos irão obter um conhecimento aprofundado sobre os recursos disponíveis sobre Animation.',
         duracao: 80,
         code: 'PWY-9381',
         rating: 5,
