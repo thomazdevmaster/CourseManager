@@ -29,6 +29,10 @@ export class courseService{
             return this.httpClient.post<Course>(this.coursesUrl, course);
         }
     }
+
+    deletePorId(id: number):Observable<any>{
+        return this.httpClient.delete<any>(`${this.coursesUrl}/${id}`)
+    }
     
 }
 
